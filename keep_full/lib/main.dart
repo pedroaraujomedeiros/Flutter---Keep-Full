@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './Widgets/HomeTab.dart';
 import './Widgets/GroceryListTab.dart';
 import './Widgets/MapTab.dart';
+import './Widgets/GroceryItem.dart';
 import './Models/AppKeepFull.dart';
 import './Models/Grocery.dart';
 
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: App.primarySwatch,
         iconTheme: IconThemeData(color: Color.fromRGBO(230, 74, 19, 1)),
+        buttonTheme: ButtonThemeData(
+          textTheme: ButtonTextTheme.primary,
+        ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'Keep Full'),
@@ -41,8 +45,26 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Widget> _appBarChildren = [];
 
+  void _addNewGroceryItem(Grocery grocery) {
+    grocery.id = this._groceries.length + 1;
+    setState(() {
+      this._groceries.add(grocery);
+    });
+  }
+  void _editGroceryItem(Grocery grocery) {
+    setState(() {
+
+    });
+  }
+
+  void _deleteGroceryItem(Grocery grocery) {
+    setState(() {
+      this._groceries.removeWhere((g) => g.id == grocery.id);
+    });
+  }
 
   void _showGroceryItemModal(BuildContext ctx, Grocery grocery){
+    Navigator.of(context).push(MaterialPageRoute(builder: (bCtx) => GroceryItem(grocery,_addNewGroceryItem,_editGroceryItem)));
 
   }
 
@@ -96,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children:
         [
           HomeTab(_groceries,_openGroceryListTab),
-          SingleChildScrollView(child: GroceryListTab()),
+          SingleChildScrollView(child: GroceryListTab(_groceries,_showGroceryItemModal, _editGroceryItem, _deleteGroceryItem)),
         ],
       ):MapTab()
       ,
