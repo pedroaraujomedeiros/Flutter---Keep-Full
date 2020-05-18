@@ -1,12 +1,43 @@
 
-import 'package:flutter/material.dart';
+import 'dart:core';
 
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
 class App {
+
+  Map<String,String> _user;
+
   App._(); // this basically makes it so you can instantiate this class
 
+  App();
+
+  void saveUser(String firstName, String lastName) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('userFirstName', firstName);
+    prefs.setString('userLastName', lastName);
+    prefs.setBool('seen', true);
+  }
+
+  Future<bool> appWasOpened() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('seen') ?? false;
+  }
+
+  Future<Map<String, String>> getUser() async{
+    Map<String, String> user = new Map<String, String>();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    user['userFirstName'] = prefs.getString('userFirstName');
+    user['userLastName'] = prefs.getString('userLastName');
+    return user;
+  }
+
+  void clearSharedPreferences() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
 
   static const MaterialColor primarySwatch = const MaterialColor(
     0xFFE64A19,
@@ -31,4 +62,6 @@ class App {
     }
     return images;
   }
+
+
 }

@@ -2,14 +2,15 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import '../Widgets/FoodCuriosities.dart';
 import '../Models/AppKeepFull.dart';
 import '../Models/Grocery.dart';
 
 class HomeTab extends StatelessWidget {
   final List<Grocery> groceries;
   final Function openGroceryListTab;
-
-  HomeTab(this.groceries, this.openGroceryListTab);
+  final Map<String,String> user;
+  HomeTab(this.groceries, this.openGroceryListTab, this.user);
 
   /// Generate a list containing random images based on the assets images
   List<String> randomImages() {
@@ -20,16 +21,23 @@ class HomeTab extends StatelessWidget {
     return images.getRange(0, maxImages ).toList();
   }
 
+  void openFoodCuriosities(BuildContext ctx, String image){
+    Navigator.of(ctx).push(MaterialPageRoute(
+        builder: (bCtx) =>
+            FoodCuriosities(initialImage: image,)));
 
+  }
 
   @override
   Widget build(BuildContext context) {
     List<Widget> itemsCarousel;
 
     itemsCarousel = randomImages()
-        .map(
-          (item) => Padding(
-            padding: const EdgeInsets.all(4.0),
+      .map(
+        (item) => Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: GestureDetector(
+            onTap: (){ openFoodCuriosities(context, item);},
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
@@ -48,8 +56,9 @@ class HomeTab extends StatelessWidget {
               ),
             ),
           ),
-        )
-        .toList();
+        ),
+      )
+      .toList();
 
     itemsCarousel.insert(
       0,
@@ -98,7 +107,7 @@ class HomeTab extends StatelessWidget {
                 ),
               ),
               Text(
-                "Pedro Medeiros",
+                "${this.user["userFirstName"]} ${this.user["userLastName"]}",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 30.0,

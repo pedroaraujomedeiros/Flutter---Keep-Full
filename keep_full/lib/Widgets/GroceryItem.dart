@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import '../Models/Grocery.dart';
 
+
 class MeasurementUnits{
 
   static List<String> get units{
@@ -39,6 +40,7 @@ class GroceryItem extends StatefulWidget {
 
   GroceryItem(this.grocery, this.addNewGroceryItem, this.editGroceryItem);
 
+  /// property isNewGrocery
   bool get isNewGrocery{
     return grocery.id<=0;
   }
@@ -50,7 +52,6 @@ class GroceryItem extends StatefulWidget {
 class _GroceryItemState extends State<GroceryItem> {
   final _itemNameController = TextEditingController();
   final _quantityController = TextEditingController();
-  final _categoryController = TextEditingController();
   String measurementUnitValue = "Kg";
   String categoryValue = "Food";
 
@@ -61,9 +62,9 @@ class _GroceryItemState extends State<GroceryItem> {
   void _submitData() {
     final itemName = _itemNameController.text;
     final quantity = _quantityController.text;
-    final category = _categoryController.text;
 
-    if (itemName.isEmpty || quantity.isEmpty || (category.isEmpty && categoryValue == "")) {
+    /// If any value is empty, cancel submission
+    if (itemName.isEmpty || quantity.isEmpty || categoryValue.isEmpty) {
       return;
     }
     widget.grocery.name = itemName;
@@ -77,7 +78,6 @@ class _GroceryItemState extends State<GroceryItem> {
       widget.editGroceryItem(widget.grocery);
     }
     Navigator.of(context).pop();
-    //Navigator.pop(context,);
   }
 
   @override
@@ -86,6 +86,7 @@ class _GroceryItemState extends State<GroceryItem> {
 
     quantityFocusNode = FocusNode();
     categoryFocusNode = FocusNode();
+
     _itemNameController.text = widget.grocery.name;
     _quantityController.text = widget.grocery.quantity;
     categoryValue = widget.grocery.category.isEmpty ? Categories.categories[0] : widget.grocery.category;

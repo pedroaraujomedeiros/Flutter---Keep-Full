@@ -8,7 +8,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="keep_full"
+        android:label="Keep Full"
         android:icon="@mipmap/ic_launcher">
 
         <!-- Add the following entry, with your API key -->
