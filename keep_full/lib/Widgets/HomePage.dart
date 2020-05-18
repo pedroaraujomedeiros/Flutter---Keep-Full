@@ -3,6 +3,7 @@ import '../Widgets/HomeTab.dart';
 import '../Widgets/GroceryListTab.dart';
 import '../Widgets/MapTab.dart';
 import '../Widgets/GroceryItem.dart';
+import '../Widgets/About.dart';
 import '../Models/Grocery.dart';
 import '../main.dart';
 
@@ -91,7 +92,6 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-
               child: Center(
                 child: FittedBox(
                   child: Text(
@@ -117,21 +117,31 @@ class _HomePageState extends State<HomePage> {
                     new MaterialPageRoute(builder: MyApp.mainPageRoute));
               },
             ),
-
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.info),
+              title: Text('About'),
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (bCtx) => About()));
+              },
+            ),
           ],
         ),
       ),
-      body: _selectedTabIndex < 2
-          ? IndexedStack(
-              index: _selectedTabIndex,
-              children: [
-                HomeTab(_groceries, _openGroceryListTab, widget.user),
-                SingleChildScrollView(
-                    child: GroceryListTab(_groceries, _showGroceryItemModal,
-                        _editGroceryItem, _deleteGroceryItem)),
-              ],
-            )
-          : MapTab(),
+      body: SafeArea(
+        child: _selectedTabIndex < 2
+            ? IndexedStack(
+                index: _selectedTabIndex,
+                children: [
+                  HomeTab(_groceries, _openGroceryListTab, widget.user),
+                  SingleChildScrollView(
+                      child: GroceryListTab(_groceries, _showGroceryItemModal,
+                          _editGroceryItem, _deleteGroceryItem)),
+                ],
+              )
+            : MapTab(),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

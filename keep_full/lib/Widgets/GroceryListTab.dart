@@ -50,22 +50,9 @@ class GroceryListTab extends StatelessWidget {
                       icon: Icons.delete,
                       onTap: () => this.deleteGrocery(groceries[idx]),
                     ),
-                    IconSlideAction(
-                      caption: 'Share',
-                      color: Colors.indigo,
-                      icon: Icons.share,
-                      //onTap: () => _showSnackBar('Share'),
-                    ),
-                  ],
-                  secondaryActions: <Widget>[
-                    IconSlideAction(
-                      caption: 'More',
-                      color: Colors.black45,
-                      icon: Icons.more_horiz,
-                      //onTap: () => _showSnackBar('More'),
-                    ),
 
                   ],
+                  
                   child: ListTile(
                     title: Text(
                       groceries[idx].name,
