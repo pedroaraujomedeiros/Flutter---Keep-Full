@@ -1,53 +1,24 @@
 import 'package:flutter/material.dart';
-import './Widgets/IntroScreen.dart';
-import './Widgets/HomePage.dart';
-import './Models/AppKeepFull.dart';
+import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import './Widgets/widgets.dart';
+import './Models/models.dart';
+import './Blocs/blocs.dart';
+import './Blocs/simple_bloc_delegate.dart';
 
-App app = App();
+void main() async {
+  //It is required in Flutter v1.9.4+ before using any plugins if the code is executed before runApp.
+  WidgetsFlutterBinding.ensureInitialized();
+  BlocSupervisor.delegate = SimpleBlocDelegate();
 
-void main() {
-  runApp(MyApp());
+  runApp(BlocProvider(
+    create: (context) => AuthenticationBloc(user: null)..add(AppStarted()),
+    child: MyApp(),
+  ));
 }
 
+
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-
-  static final mainPageRoute = (context) => FutureBuilder(
-        future: app.getUser().timeout(Duration(seconds: 2), onTimeout: null),
-        initialData: null,
-        builder: mainPageRouteBuilder,
-      );
-
-  static Widget mainPageRouteBuilder(
-      BuildContext context, AsyncSnapshot<Map<String, String>> snapshot) {
-    List<Widget> children;
-    if (snapshot.hasData) {
-      print(snapshot.data);
-      if (snapshot.data["userFirstName"]?.isNotEmpty ?? false) {
-        return HomePage(snapshot.data);
-      } else {
-        return IntroScreen();
-      }
-    } else {
-      children = <Widget>[
-        SizedBox(
-          child: CircularProgressIndicator(),
-          width: 60.0,
-          height: 60.0,
-        ),
-        const Padding(
-          padding: EdgeInsets.only(top: 16),
-        )
-      ];
-    }
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: children,
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +34,31 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       //home: IntroScreen(),
-      onGenerateInitialRoutes: (_) => [
-        MaterialPageRoute(builder: mainPageRoute),
-      ],
+      home: BlocBuilder<AuthenticationBloc,AuthenticationState>(
+        condition: (prevState, currState) => currState != prevState,
+        builder: (context, state){
+          if(state is Uninitialized){
+            return Center(
+              child: SizedBox(
+                child: CircularProgressIndicator(),
+                width: 60.0,
+                height: 60.0,
+              ),
+            );
+          }
+          else if(state is Authenticated){
+            return BlocProvider(
+                create: (BuildContext context) => GroceryListBloc(GroceryList())..add(LoadFromDatabase()),
+                child: HomePage(state.user),
+            );
+          }
+          else if(state is Unauthenticated){
+            return IntroScreen();
+          }
+          return Container();
+        },
+      ),
+
     );
   }
 }
