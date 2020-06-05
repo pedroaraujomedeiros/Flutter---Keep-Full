@@ -71,6 +71,7 @@ class _HomeTabState extends State<HomeTab> {
     /// Inserting first card on carousel
     itemsCarousel.insert(
       0,
+      
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
         child: GestureDetector(

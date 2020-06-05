@@ -42,42 +42,43 @@ class Developer extends StatelessWidget {
                 color: Colors.teal.shade100,
               ),
             ),
-            Card(
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-              child: ListTile(
-                leading: Icon(
-                  Icons.phone,
-                  color: Colors.teal,
-                ),
-                title: Text(
-                  '+1 506 962 4608',
-                  style: TextStyle(
-                    color: Colors.teal.shade900,
-                    fontFamily: 'Source Sans Pro',
-                    fontSize: 20.0,
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-              child: ListTile(
-                leading: Icon(
-                  Icons.email,
-                  color: Colors.teal,
-                ),
-                title: FittedBox(
-                  child: Text(
-                    'pedro.araujo.medeiros@gmail.com',
-                    style: TextStyle(
-                      color: Colors.teal.shade900,
-                      fontFamily: 'Source Sans Pro',
-                      fontSize: 15.0,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+
+//            Card(
+//              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+//              child: ListTile(
+//                leading: Icon(
+//                  Icons.phone,
+//                  color: Colors.teal,
+//                ),
+//                title: Text(
+//                  '+1 506 962 4608',
+//                  style: TextStyle(
+//                    color: Colors.teal.shade900,
+//                    fontFamily: 'Source Sans Pro',
+//                    fontSize: 20.0,
+//                  ),
+//                ),
+//              ),
+//            ),
+//            Card(
+//              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+//              child: ListTile(
+//                leading: Icon(
+//                  Icons.email,
+//                  color: Colors.teal,
+//                ),
+//                title: FittedBox(
+//                  child: Text(
+//                    'pedro.araujo.medeiros@gmail.com',
+//                    style: TextStyle(
+//                      color: Colors.teal.shade900,
+//                      fontFamily: 'Source Sans Pro',
+//                      fontSize: 15.0,
+//                    ),
+//                  ),
+//                ),
+//              ),
+//            ),
           ],
         ),
       ),

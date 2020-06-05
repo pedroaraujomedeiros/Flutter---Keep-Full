@@ -15,23 +15,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   int _selectedTabIndex = 0;
 
   List<Widget> _appBarChildren = [];
 
   /// show GroceryItemPage in add mode
-  void _showGroceryItemPage(){
+  void _showGroceryItemPage() {
     Navigator.of(context).push(MaterialPageRoute<GroceryItem>(
       builder: (_) {
         return BlocProvider<GroceryListBloc>.value(
             value: BlocProvider.of<GroceryListBloc>(context),
-            child: GroceryItem(
-                Grocery.newItem(), ActionGroceryItem.Add));
+            child: GroceryItem(Grocery.newItem(), ActionGroceryItem.Add));
       },
     ));
   }
-
 
   void _openGroceryListTab() {
     setState(() {
@@ -73,6 +70,26 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    BottomNavigationBar bottomNavigationBar = BottomNavigationBar(
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          title: Text('Home'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.list),
+          title: Text('List'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.map),
+          title: Text('Stores'),
+        ),
+      ],
+      currentIndex: _selectedTabIndex,
+      onTap: _onBottomNavBarItemTapped,
+      elevation: 5,
+    );
+
     return Scaffold(
       appBar: _appBarChildren[_selectedTabIndex],
       drawer: Drawer(
@@ -117,7 +134,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-
       body: SafeArea(
         child: _selectedTabIndex < 2
             ? IndexedStack(
@@ -127,7 +143,11 @@ class _HomePageState extends State<HomePage> {
                   SingleChildScrollView(
                     child: BlocBuilder<GroceryListBloc, GroceryListState>(
                       builder: (_, state) {
-                        return GroceryListTab();
+                        return Container(
+                            height: MediaQuery.of(context).size.height -
+                                AppBar().preferredSize.height -
+                                80,
+                            child: GroceryListTab());
                       },
                     ),
                   ),
@@ -135,27 +155,7 @@ class _HomePageState extends State<HomePage> {
               )
             : MapTab(),
       ),
-
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            title: Text('List'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            title: Text('Stores'),
-          ),
-        ],
-        currentIndex: _selectedTabIndex,
-        onTap: _onBottomNavBarItemTapped,
-        elevation: 5,
-      ),
-
+      bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: _selectedTabIndex != 1
           ? null
           : FloatingActionButton(

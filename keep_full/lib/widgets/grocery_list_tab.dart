@@ -56,7 +56,7 @@ class _GroceryListTabState extends State<GroceryListTab> {
           if (state is Loading) {
             return Container(
               height: MediaQuery.of(context).size.height -
-                  AppBar().preferredSize.height,
+                  AppBar().preferredSize.height - 80,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -71,7 +71,7 @@ class _GroceryListTabState extends State<GroceryListTab> {
           } else if (groceryList.items.length == 0) {
             return Container(
               height: MediaQuery.of(context).size.height -
-                  AppBar().preferredSize.height,
+                  AppBar().preferredSize.height - 80,
               child: Center(
                 child: Text(
                   'No items added yet!',
@@ -81,6 +81,7 @@ class _GroceryListTabState extends State<GroceryListTab> {
             );
           } else {
             return ListView.builder(
+
                 shrinkWrap: true,
                 itemCount: groceryList.items.length,
                 itemBuilder: (ctx, idx) {
@@ -127,7 +128,7 @@ class _GroceryListTabState extends State<GroceryListTab> {
                             style: Theme.of(context).textTheme.headline6,
                           ),
                           subtitle: Text(
-                            "${groceryList.items[idx].category} - ${groceryList.items[idx].quantity}",
+                            "${groceryList.items[idx].category} - ${groceryList.items[idx].quantity} ${groceryList.items[idx].measurementUnit}",
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.grey,
