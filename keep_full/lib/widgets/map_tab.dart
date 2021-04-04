@@ -160,7 +160,7 @@ class _MapTabState extends State<MapTab> {
   /// Radius considered = 1500 meters
   Future<void> getNearbyGroceryStores(LatLng deviceLocation) async {
     try{
-      final places = new GoogleMapsPlaces(apiKey: "AIzaSyCDJe8EwPSvPQwGoCB6qU9WXurD_nqbTzY");
+      final places = new GoogleMapsPlaces(apiKey: "YOUR_GOOGLE_MAPS_API_KEY");
 
       String nextPageToken;
       final Set<Marker> newMarkers = Set<Marker>();
